@@ -11,3 +11,6 @@
 .DS_Store
 /build
 gradlew.bat
+/app/app.iml
+/app/build.gradle
+/app/proguard-rules.pro
