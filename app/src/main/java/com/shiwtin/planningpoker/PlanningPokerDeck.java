@@ -5,7 +5,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TableLayout;
 
@@ -32,7 +35,7 @@ public class PlanningPokerDeck extends Activity {
 
     TableLayout tableLayout;
 
-    View.OnClickListener onClickListener;
+    OnClickListener onClickListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +45,8 @@ public class PlanningPokerDeck extends Activity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_planning_poker_deck);
+
+        final Animation animAlpha = AnimationUtils.loadAnimation(this, R.anim.anim_alpha);
 
         buttonZero = (Button) findViewById(R.id.buttonZero);
         buttonHalf = (Button) findViewById(R.id.buttonHalf);
@@ -63,7 +68,7 @@ public class PlanningPokerDeck extends Activity {
 
         tableLayout = (TableLayout) findViewById(R.id.tableLayout);
 
-        onClickListener = new View.OnClickListener() {
+        onClickListener = new OnClickListener() {
             @Override
             public void onClick(View view) {
                 Button button = (Button) view;
@@ -71,6 +76,7 @@ public class PlanningPokerDeck extends Activity {
                     buttonMain.setText(button.getText());
                     tableLayout.setVisibility(View.INVISIBLE);
                     buttonMain.setVisibility(View.VISIBLE);
+                    buttonMain.startAnimation(animAlpha);
                 }
             }
         };
@@ -91,13 +97,14 @@ public class PlanningPokerDeck extends Activity {
         buttonPause.setOnClickListener(onClickListener);
         buttonCross.setOnClickListener(onClickListener);
 
-        buttonMain.setOnClickListener(new View.OnClickListener() {
+        buttonMain.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 Button button = (Button) view;
                 if (button != null && button.getVisibility() == View.VISIBLE) {
                     button.setVisibility(View.INVISIBLE);
                     tableLayout.setVisibility(View.VISIBLE);
+                    tableLayout.startAnimation(animAlpha);
                 }
             }
         });
